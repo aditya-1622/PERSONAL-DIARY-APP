@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Diary — Login</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="auth-container">
+    <h1>📔 Personal Diary</h1>
+
+    <!-- Toggle buttons -->
+    <div class="auth-tabs">
+      <button id="loginTab" class="tab-btn active">Login</button>
+      <button id="registerTab" class="tab-btn">Register</button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="loginForm" class="auth-form">
+      <input type="text" id="loginUsername" placeholder="Username" />
+      <span class="error-text" id="loginUsernameError"></span>
+
+      <input type="password" id="loginPassword" placeholder="Password" />
+      <span class="error-text" id="loginPasswordError"></span>
+
+      <button type="submit">Login</button>
+      <p class="form-message" id="loginMessage"></p>
+    </form>
+
+    <!-- Register Form (hidden by default) -->
+    <form id="registerForm" class="auth-form hidden">
+      <input type="text" id="registerUsername" placeholder="Username" />
+      <span class="error-text" id="registerUsernameError"></span>
+
+      <input type="password" id="registerPassword" placeholder="Password" />
+      <span class="error-text" id="registerPasswordError"></span>
+
+      <button type="submit">Register</button>
+      <p class="form-message" id="registerMessage"></p>
+    </form>
+  </div>
+
+  <script src="auth.js"></script>
+</body>
+</html>
