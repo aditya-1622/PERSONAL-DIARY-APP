@@ -92,4 +92,31 @@ router.post("/login", async (req, res) => {
 }
 });
 
+// ===== RESET PASSWORD (no email, simple version) =====
+router.post("/reset-password", async (req, res) => {
+  try {
+    const { username, newPassword } = req.body;
+
+    if (!username || !newPassword) {
+      return res.status(400).json({ message: "Username and new password are required" });
+    }
+
+    const users = readUsers();
+    const userIndex = users.findIndex((u) => u.username === username);
+
+    if (userIndex === -1) {
+      return res.status(404).json({ message: "Username not found" });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    users[userIndex].password = hashedPassword;
+    writeUsers(users);
+
+    res.status(200).json({ message: "Password reset successfully" });
+  } catch (error) {
+    console.error("RESET PASSWORD ERROR:", error);
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+});
+
 export default router;

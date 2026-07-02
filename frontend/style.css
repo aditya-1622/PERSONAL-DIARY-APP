@@ -265,3 +265,40 @@ body {
   color: #888;
   margin-top: 40px;
 }
+
+.password-wrapper {
+  position: relative;
+  margin-top: 10px;
+}
+
+.password-wrapper input {
+  width: 100%;
+  margin-top: 0;
+  padding-right: 40px;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  font-size: 1rem;
+  user-select: none;
+}
+
+.forgot-link {
+  text-align: center;
+  margin-top: 10px;
+}
+
+.forgot-link a {
+  color: #a29bfe;
+  font-size: 0.85rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.forgot-link a:hover {
+  text-decoration: underline;
+}

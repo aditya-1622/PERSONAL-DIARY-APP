@@ -22,11 +22,15 @@
       <input type="text" id="loginUsername" placeholder="Username" />
       <span class="error-text" id="loginUsernameError"></span>
 
-      <input type="password" id="loginPassword" placeholder="Password" />
+      <div class="password-wrapper">
+        <input type="password" id="loginPassword" placeholder="Password" />
+        <span class="toggle-password" data-target="loginPassword">👁️</span>
+      </div>
       <span class="error-text" id="loginPasswordError"></span>
 
       <button type="submit">Login</button>
       <p class="form-message" id="loginMessage"></p>
+      <p class="forgot-link"><a href="#" id="forgotPasswordLink">Forgot Password?</a></p>
     </form>
 
     <!-- Register Form (hidden by default) -->
@@ -34,11 +38,30 @@
       <input type="text" id="registerUsername" placeholder="Username" />
       <span class="error-text" id="registerUsernameError"></span>
 
-      <input type="password" id="registerPassword" placeholder="Password" />
+      <div class="password-wrapper">
+        <input type="password" id="registerPassword" placeholder="Password" />
+        <span class="toggle-password" data-target="registerPassword">👁️</span>
+      </div>
       <span class="error-text" id="registerPasswordError"></span>
 
       <button type="submit">Register</button>
       <p class="form-message" id="registerMessage"></p>
+    </form>
+
+    <!-- Forgot Password Form (hidden by default) -->
+    <form id="forgotForm" class="auth-form hidden">
+      <input type="text" id="forgotUsername" placeholder="Enter your username" />
+      <span class="error-text" id="forgotUsernameError"></span>
+
+      <div class="password-wrapper">
+        <input type="password" id="forgotNewPassword" placeholder="New Password" />
+        <span class="toggle-password" data-target="forgotNewPassword">👁️</span>
+      </div>
+      <span class="error-text" id="forgotPasswordError"></span>
+
+      <button type="submit">Reset Password</button>
+      <p class="form-message" id="forgotMessage"></p>
+      <p class="forgot-link"><a href="#" id="backToLoginLink">Back to Login</a></p>
     </form>
   </div>
 

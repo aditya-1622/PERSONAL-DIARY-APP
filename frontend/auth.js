@@ -1,5 +1,19 @@
 const API_BASE = "https://personal-diary-app-i13d.onrender.com/api/auth";
 
+// ===== Password show/hide toggle =====
+document.querySelectorAll(".toggle-password").forEach((icon) => {
+  icon.addEventListener("click", () => {
+    const targetInput = document.getElementById(icon.dataset.target);
+    if (targetInput.type === "password") {
+      targetInput.type = "text";
+      icon.textContent = "🙈";
+    } else {
+      targetInput.type = "password";
+      icon.textContent = "👁️";
+    }
+  });
+});
+
 // ===== Tab switching =====
 const loginTab = document.getElementById("loginTab");
 const registerTab = document.getElementById("registerTab");
@@ -11,6 +25,7 @@ loginTab.addEventListener("click", () => {
   registerTab.classList.remove("active");
   loginForm.classList.remove("hidden");
   registerForm.classList.add("hidden");
+  forgotForm.classList.add("hidden");
 });
 
 registerTab.addEventListener("click", () => {
@@ -18,6 +33,7 @@ registerTab.addEventListener("click", () => {
   loginTab.classList.remove("active");
   registerForm.classList.remove("hidden");
   loginForm.classList.add("hidden");
+  forgotForm.classList.add("hidden");
 });
 
 // ===== Login form =====
@@ -138,6 +154,81 @@ registerForm.addEventListener("submit", async (e) => {
 
     setTimeout(() => {
       loginTab.click();
+    }, 1000);
+  } catch (error) {
+    message.textContent = "Could not connect to server";
+    message.className = "form-message error";
+  }
+});
+
+// ===== Forgot Password flow =====
+const forgotForm = document.getElementById("forgotForm");
+const forgotPasswordLink = document.getElementById("forgotPasswordLink");
+const backToLoginLink = document.getElementById("backToLoginLink");
+
+forgotPasswordLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  loginForm.classList.add("hidden");
+  registerForm.classList.add("hidden");
+  forgotForm.classList.remove("hidden");
+});
+
+backToLoginLink.addEventListener("click", (e) => {
+  e.preventDefault();
+  forgotForm.classList.add("hidden");
+  loginForm.classList.remove("hidden");
+});
+
+forgotForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const username = document.getElementById("forgotUsername").value.trim();
+  const newPassword = document.getElementById("forgotNewPassword").value.trim();
+
+  const usernameError = document.getElementById("forgotUsernameError");
+  const passwordError = document.getElementById("forgotPasswordError");
+  const message = document.getElementById("forgotMessage");
+
+  usernameError.textContent = "";
+  passwordError.textContent = "";
+  message.textContent = "";
+  message.className = "form-message";
+
+  let hasError = false;
+
+  if (!username) {
+    usernameError.textContent = "Username is required";
+    hasError = true;
+  }
+
+  if (!newPassword || newPassword.length < 4) {
+    passwordError.textContent = "Password must be at least 4 characters";
+    hasError = true;
+  }
+
+  if (hasError) return;
+
+  try {
+    const response = await fetch(`${API_BASE}/reset-password`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, newPassword }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      message.textContent = data.message || "Reset failed";
+      message.className = "form-message error";
+      return;
+    }
+
+    message.textContent = "Password reset! You can login now.";
+    message.className = "form-message success";
+    forgotForm.reset();
+
+    setTimeout(() => {
+      backToLoginLink.click();
     }, 1000);
   } catch (error) {
     message.textContent = "Could not connect to server";
