@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Personal Diary — Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header class="dashboard-header">
+    <h1>📔 My Diary</h1>
+    <div class="header-right">
+      <span id="welcomeText"></span>
+      <button id="logoutBtn">Logout</button>
+    </div>
+  </header>
+
+  <main class="dashboard-container">
+
+    <!-- Add Entry Form -->
+    <form id="entryForm" class="entry-form">
+      <input type="text" id="entryTitle" placeholder="Entry title" />
+      <span class="error-text" id="entryTitleError"></span>
+
+      <textarea id="entryContent" placeholder="Write your thoughts..." rows="4"></textarea>
+      <span class="error-text" id="entryContentError"></span>
+
+      <button type="submit" id="entrySubmitBtn">Add Entry</button>
+    </form>
+
+    <!-- Entries list -->
+    <div id="entriesList" class="entries-list"></div>
+
+  </main>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
