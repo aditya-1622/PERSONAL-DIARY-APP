@@ -1,4 +1,4 @@
-const API_BASE = "http://localhost:5000/api/auth";
+const API_BASE = "https://personal-diary-app-i13d.onrender.com/api/auth";
 
 // ===== Tab switching =====
 const loginTab = document.getElementById("loginTab");

@@ -1,4 +1,5 @@
-const API_BASE = "http://localhost:5000/api/entries";
+const API_BASE = "https://personal-diary-app-i13d.onrender.com/api/entries";
+
 const token = localStorage.getItem("token");
 const username = localStorage.getItem("username");
 
