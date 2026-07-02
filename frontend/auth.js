@@ -1,3 +1,5 @@
+const API_BASE = "http://localhost:5000/api/auth";
+
 // ===== Tab switching =====
 const loginTab = document.getElementById("loginTab");
 const registerTab = document.getElementById("registerTab");
@@ -18,8 +20,8 @@ registerTab.addEventListener("click", () => {
   loginForm.classList.add("hidden");
 });
 
-// ===== Login form validation =====
-loginForm.addEventListener("submit", (e) => {
+// ===== Login form =====
+loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const username = document.getElementById("loginUsername").value.trim();
@@ -32,6 +34,7 @@ loginForm.addEventListener("submit", (e) => {
   usernameError.textContent = "";
   passwordError.textContent = "";
   message.textContent = "";
+  message.className = "form-message";
 
   let hasError = false;
 
@@ -47,13 +50,39 @@ loginForm.addEventListener("submit", (e) => {
 
   if (hasError) return;
 
-  // Backend call baad mein yahan aayega
-  message.textContent = "Backend not connected yet — coming next!";
-  message.className = "form-message";
+  try {
+    const response = await fetch(`${API_BASE}/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      message.textContent = data.message || "Login failed";
+      message.className = "form-message error";
+      return;
+    }
+
+    // Save token + username for later use
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("username", data.username);
+
+    message.textContent = "Login successful! Redirecting...";
+    message.className = "form-message success";
+
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 800);
+  } catch (error) {
+    message.textContent = "Could not connect to server";
+    message.className = "form-message error";
+  }
 });
 
-// ===== Register form validation =====
-registerForm.addEventListener("submit", (e) => {
+// ===== Register form =====
+registerForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
   const username = document.getElementById("registerUsername").value.trim();
@@ -66,6 +95,7 @@ registerForm.addEventListener("submit", (e) => {
   usernameError.textContent = "";
   passwordError.textContent = "";
   message.textContent = "";
+  message.className = "form-message";
 
   let hasError = false;
 
@@ -87,7 +117,30 @@ registerForm.addEventListener("submit", (e) => {
 
   if (hasError) return;
 
-  // Backend call baad mein yahan aayega
-  message.textContent = "Backend not connected yet — coming next!";
-  message.className = "form-message";
+  try {
+    const response = await fetch(`${API_BASE}/register`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username, password }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      message.textContent = data.message || "Registration failed";
+      message.className = "form-message error";
+      return;
+    }
+
+    message.textContent = "Registered successfully! You can login now.";
+    message.className = "form-message success";
+    registerForm.reset();
+
+    setTimeout(() => {
+      loginTab.click();
+    }, 1000);
+  } catch (error) {
+    message.textContent = "Could not connect to server";
+    message.className = "form-message error";
+  }
 });
